@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Header from "./Header";
 import Hero from "./Hero";
 import MainSection from "./MainSection";
@@ -42,6 +42,7 @@ function App() {
         headers
       ),
       fetch("https://imdb236.p.rapidapi.com/api/imdb/most-popular-tv", headers),
+      // fetch(`https://imdb236.p.rapidapi.com/api/imdb/search?type=${movie}&genre=${Drama}&rows=25&sortOrder=ASC&sortField=id`)
     ]);
 
     const [movieData, seriesData, topMovies, topTv, popMovie, popTv] =
@@ -54,9 +55,16 @@ function App() {
         popTvResData.json(),
       ]);
 
+    const flatten = (data) => {
+      const vals = Object.values(data);
+      const secondNestedObjects = vals.map((obj) => Object.values(obj)[1]);
+      const flatted = secondNestedObjects.flatMap((obj) => Object.values(obj));
+      return flatted;
+    };
+
     const freshData = {
-      movies: movieData,
-      series: seriesData,
+      movies: flatten(movieData),
+      series: flatten(seriesData),
       topMovies: topMovies,
       topTvSeries: topTv,
       PopularMovies: popMovie,
@@ -85,11 +93,41 @@ function App() {
     }
   }, []);
 
+  const scrollBtnRef = useRef(null);
+
+  useEffect(() => {
+    const scrollTopbtn = () => {
+      const verticalScroll = window.pageYOffset;
+      const halfViewport = window.innerHeight / 2;
+
+      if (verticalScroll >= halfViewport) {
+        scrollBtnRef.current?.classList.remove("hidden");
+      } else {
+        scrollBtnRef.current?.classList.add("hidden");
+      }
+    };
+    window.addEventListener("scroll", scrollTopbtn);
+
+    scrollTopbtn();
+
+    return () => {
+      window.removeEventListener("scroll", scrollTopbtn);
+    };
+  }, []);
+
   return (
     <div className="bg-main-bg-color min-h-screen w-screen text-main-text-color  min-w-[20rem] 2xl:max-w-[75rem] 2xl:mx-auto ">
       <Header />
       <Hero apiData={apiData} />
       <MainSection apiData={apiData} />
+      <div
+        className="w-[5rem] h-[2rem] bg-white rounded-[1rem] fixed z-40 top-5 right-[50%] left-[50%] hidden transform-[translate(-50%,-50%)] "
+        ref={scrollBtnRef}
+      >
+        <a href="#title" className="text-[1.4rem] ">
+          <i className="fa-solid fa-angle-up text-center w-full text-sub-text-color"></i>
+        </a>{" "}
+      </div>
     </div>
   );
 }

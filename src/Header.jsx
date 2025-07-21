@@ -78,7 +78,7 @@ function Header() {
 
           {/* Desktop */}
           <ul className="hidden gap-x-5 lg:flex">
-            <li className="inline-block">
+            <li className="inline-block relative">
               <a
                 href="#Home"
                 className="relative after:content-[''] after:absolute after:-bottom-3 after:left-[50%] after:right-[50%] after:transform[translate(-50%,-50%)] after:h-[.4rem] after:w-2 after:bg-button-accent-color after:rounded-full after:opacity-0 hover:after:opacity-[1] after:transition-all after:duration-500"
@@ -86,10 +86,10 @@ function Header() {
                 Home
               </a>
             </li>
-            <li className="inline-block">
+            <li className="inline-block relative">
               <a
                 href="#Genre"
-                className="relative after:content-[''] after:absolute after:-bottom-3 after:left-[50%] after:right-[50%] after:transform[translate(-50%,-50%)] after:h-[.4rem] after:w-2 after:bg-button-accent-color after:rounded-full after:opacity-0 hover:after:opacity-[1] after:transition-all after:duration-500"
+                className="relative inline-block after:content-[''] after:absolute after:-bottom-3 after:left-[50%] after:right-[50%] after:transform[translate(-50%,-50%)] after:h-[.4rem] after:w-2 after:bg-button-accent-color after:rounded-full after:opacity-0 hover:after:opacity-[1] after:transition-all after:duration-500"
               >
                 Genre
               </a>
@@ -105,7 +105,11 @@ function Header() {
           </ul>
 
           <div className="w-[25rem] h-[2rem] rounded-[1rem] bg-main-text-color text-main-bg-color px-3 hidden  mx-10 lg:flex justify-center items-center overflow-hidden">
-            <input type="text" className=" w-full h-full px-3 outline-0 " />
+            <input
+              type="text"
+              className=" w-full h-full px-3 outline-0 "
+              placeholder="search movies..."
+            />
             <i className="fa-solid fa-magnifying-glass fa-lg cursor-pointer"></i>
           </div>
 
